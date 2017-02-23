@@ -1,0 +1,36 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="@string/pref_sync"
+        android:title="@string/item_sync">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_auto_sync"
+            android:summary="@string/pref_auto_sync_summary"
+            android:title="@string/pref_auto_sync_title" />
+
+        <ListPreference
+            android:defaultValue="@string/pref_auto_sync_interval_default_value"
+            android:dependency="@string/pref_auto_sync"
+            android:entries="@array/arr_auto_sync_intervals_names"
+            android:entryValues="@array/arr_auto_sync_interval_values"
+            android:key="@string/pref_auto_sync_interval_key"
+            android:title="@string/pref_auto_sync_interval" />
+
+        <ListPreference
+            android:defaultValue="@string/pref_auto_schedule_days_default_value"
+            android:entries="@array/arr_auto_schedule_days_count_names"
+            android:entryValues="@array/arr_auto_schedule_days_count_values"
+            android:key="@string/pref_schedule_days_count_key"
+            android:title="@string/pref_auto_schedule_interval_title" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_enable_notifications_key"
+            android:summary="@string/pref_enable_notifications_text"
+            android:title="@string/pref_enable_notifications" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

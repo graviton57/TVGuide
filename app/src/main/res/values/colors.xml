@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#03A9F4</color>  <!-- 500 -->
+    <color name="colorPrimaryDark">#0288D1</color>  <!-- 700 -->
+    <color name="colorPrimaryLight">#B3E5FC</color> <!-- 100 -->
+
+    <color name="colorAccent">#FFD740</color>
+    <color name="colorsWhite">#FFFFFF</color>
+    <color name="colorsDivider">#BDBDBD</color>-->
+    <!-- the activated state color -->
+    <color name="colorsActivated">#E0E0E0</color>
+    <color name="colorsHelp">#FFF8D2</color>
+    <color name="colorsSecondaryText">#757575</color>
+</resources>

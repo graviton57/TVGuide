@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Sort arrays name must be ordered on sort_values -->
+    <string-array name="channel_sort_names">
+        <item>@string/pref_item_sort_none</item>
+        <item>@string/pref_item_sort_name</item>
+        <item>@string/pref_item_sort_category</item>
+    </string-array>
+
+    <string name="pref_item_sort_none">Without collating</string>
+    <string name="pref_item_sort_name">Name</string>
+    <string name="pref_item_sort_category">Category</string>
+
+    <!-- Content sort values -->
+    <string-array name="channel_sort_values"  translatable="false" >
+        <item>none</item>
+        <item>name</item>
+        <item>category</item>
+    </string-array>
+    <string-array name="channel_sort_values_desc"  translatable="false" >
+        <item>none</item>
+        <item>name.desc</item>
+        <item>category.desc</item>
+    </string-array>
+     <!-- Sync arrays -->
+    <string-array name="arr_auto_sync_intervals_names">
+        <item>@string/pref_auto_sync_once_daily</item>
+        <item>@string/pref_auto_sync_twice_day</item>
+        <item>@string/pref_auto_sync_every_hour</item>
+    </string-array>
+
+    <string name="pref_auto_sync_once_daily">Once a day</string>
+    <string name="pref_auto_sync_twice_day">Every 12 hours</string>
+    <string name="pref_auto_sync_every_hour">Every hour</string>
+
+    <!-- Sync -->
+    <string-array name="arr_auto_sync_interval_values" translatable="false">
+        <item>@string/pref_auto_sync_interval_default_value</item>
+        <item>43200</item>
+        <item>3600</item>
+    </string-array>
+    <!-- TvProgram schedule count days -->
+    <string-array name="arr_auto_schedule_days_count_names">
+        <item>@string/pref_auto_schedule_one_day</item>
+        <item>@string/pref_auto_schedule_week</item>
+        <item>@string/pref_auto_schedule_month</item>
+    </string-array>
+
+    <string name="pref_auto_schedule_one_day">One Day</string>
+    <string name="pref_auto_schedule_week">One Week</string>
+    <string name="pref_auto_schedule_month">One Month</string>
+
+    <string-array name="arr_auto_schedule_days_count_values" translatable="false">
+        <item>@string/pref_auto_schedule_days_default_value</item>
+        <item>7</item>
+        <item>30</item>
+    </string-array>
+    <!-- Once dialy-->
+    <string name="pref_auto_sync_interval_default_value" translatable="false" >86400</string>
+    <!-- One day-->
+    <string name="pref_auto_schedule_days_default_value" translatable="false" >1</string>
+
+</resources>

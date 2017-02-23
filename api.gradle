@@ -1,0 +1,5 @@
+ext {
+
+    BASE_API_URL = "http://52.50.138.211:8080/ChanelAPI/"
+
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:persistent="true">
+
+    <PreferenceCategory android:title="@string/pref_general_settings" />
+
+    <PreferenceScreen
+        android:key="@string/pref_account_key_sync"
+        android:summary="@string/pref_sync_settings_summary"
+        android:title="@string/item_sync">
+        <intent
+            android:action="com.havrylyuk.tvapp.ACTION_SYNC_SETTINGS"
+            android:targetClass="com.havrylyuk.tvapp.activity.SettingsActivity"
+            android:targetPackage="@string/content_authority" />
+    </PreferenceScreen>
+
+</PreferenceScreen>

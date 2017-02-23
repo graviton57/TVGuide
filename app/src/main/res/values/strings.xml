@@ -1,0 +1,63 @@
+<resources xmlns:xliff="http://schemas.android.com/tools">
+    <string name="app_name">Tv Guide</string>
+
+    <!-- SyncAdapter related -->
+    <string name="sync_account_type" translatable="false">tvapp.havrylyuk.com</string>
+    <string name="content_authority" translatable="false">com.havrylyuk.tvapp</string>
+
+    <!-- App Sync ic_menu_settings strings -->
+    <string name="pref_server_status_key" translatable="false">com.havrylyuk.tvapp.pref_server_status_key</string>
+    <string name="pref_auto_sync_title">Sync automatic</string>
+    <string name="pref_auto_sync_summary">Synchronization at regular intervals</string>
+    <string name="pref_auto_sync_interval">Sync interval</string>
+    <string name="pref_general_settings">Basic settings</string>
+    <string name="pref_sync_settings_summary">Automatic synchronization, etc.</string>
+    <string name="pref_sync" translatable="false">com.havrylyuk.tvapp.KEY_SYNC</string>
+    <string name="pref_auto_sync" translatable="false">com.havrylyuk.tvapp.KEY_AUTO_SYNC</string>
+    <string name="pref_auto_sync_interval_key" translatable="false">com.havrylyuk.tvapp.KEY_AUTO_SYNC_INTERVAL</string>
+    <string name="pref_header_general">General</string>
+    <string name="pref_account_key_sync" translatable="false">com.havrylyuk.tvapp.KEY_ACCOUNT_SYNC</string>
+    <!-- Naw. drawer string -->
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="item_settings">Settings</string>
+    <string name="item_preferred">Preferred channels</string>
+    <string name="item_channels">Tv Channels</string>
+    <string name="item_categories">Tv Categories</string>
+    <string name="item_additional">Additional</string>
+    <string name="item_program">Tv Program</string>
+    <string name="item_sync">Manual Sync</string>
+    <string name="item_sort">Sort channel</string>
+    <!-- Settings strings -->
+    <string name="pref_auto_schedule_interval_title">Program schedule days</string>
+    <string name="pref_schedule_days_count_key" translatable="false" >com.havrylyuk.SCHEDULE_DAYS_COUNT_KEY</string>
+    <string name="pref_enable_notifications_key" translatable="false" >com.havrylyuk.pref_enable_notifications_default_key</string>
+    <string name="pref_enable_notifications_text">Show Notifications</string>
+    <string name="pref_enable_notifications">Notifications</string>
+    <string name="pref_sort_channel_key" translatable="false" >com.havrylyuk.pref_sort_channel_key</string>
+    <string name="pref_program_date_key" translatable="false">com.havrylyuk.pref_program_date_key</string>
+    <string name="pref_last_sync_time_key" translatable="false">com.havrylyuk.pref_last_sync_time_key</string>
+    <string name="pref_fist_run_key" translatable="false">com.havrylyuk.pref_fist_run_key</string>
+    <!-- Sort dialog string -->
+    <string name="dialog_sort_title">Sort channel by:</string>
+    <string name="dialog_sort_ratio_asc">Increase</string>
+    <string name="dialog_sort_ratio_desc">Decrease</string>
+    <!-- Date Picker string -->
+    <string name="date_picker_dialog_title">Select Date for Tv Listing</string>
+
+    <!-- Notification and sync status strings -->
+    <string name="notify_sync_start">Syncing …</string>
+    <string name="notify_sync_success">Sync complete!\nSuccessful updated:<xliff:g id="updated">%1d</xliff:g> records.</string>
+    <string name="sync_success">Sync successful complete!</string>
+    <string name="format_notification">Updated: <xliff:g id="updated">%1$s</xliff:g> Errors: <xliff:g id="errors">%2$s</xliff:g></string>
+    <string name="format_last_sync">Last Sync: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="satus_empty_list">No Tv Information Available</string>
+    <string name="satus_empty_list_server_down">No Tv Guide information available. The server is not returning data.</string>
+    <string name="satus_empty_list_server_error">No Tv Guide information available. The server is not returning valid data.Errors:<xliff:g id="area">%1d</xliff:g></string>
+    <string name="satus_empty_list_no_network">No Tv Guide information available. The network is not available to fetch weather data.</string>
+    <string name="satus_empty_list_bad_request">No Tv Guide information available. Bad request.</string>
+
+    <string name="image_content_description" translatable="false">Tv channel image</string>
+
+
+</resources>
