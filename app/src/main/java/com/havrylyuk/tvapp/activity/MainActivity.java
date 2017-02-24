@@ -1,9 +1,10 @@
 package com.havrylyuk.tvapp.activity;
 
-import android.content.ContentResolver;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SyncStatusObserver;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.NavigationMenuView;
@@ -15,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -48,7 +50,6 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity  implements
         NavigationView.OnNavigationItemSelectedListener,
-        SyncStatusObserver,
         SortChannelDialog.onSortApplyListener,
         DatePickerDialog.OnDateSetListener,
         CategoryFragment.OnSelectCategoryListener,
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity  implements
     private static final String STATE_SYNC_ACTIVE = "com.havrylyuk.tvapp.STATE_SYNC_ACTIVE";;
 
     private ProgressBar progressBar;
-    private Object syncMonitor;//check sync status
     private PreferencesHelper preferencesHelper;
     private DatePickerDialog datePickerDialog;
     private FloatingActionButton selectDateButton;
@@ -68,18 +68,24 @@ public class MainActivity extends AppCompatActivity  implements
     private Toolbar toolbar;
     private TextView lastSyncDateView;
     private boolean isSyncActive;
+    private SyncContentReceiver syncContentReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         preferencesHelper = PreferencesHelper.getInstance();
+        IntentFilter filter = new IntentFilter(SyncContentReceiver.SYNC_RESPONSE_STATUS);
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        syncContentReceiver = new SyncContentReceiver();
+        registerReceiver(syncContentReceiver, filter);
         setupToolBar();
         setupCalendarFab();
         setupDrawerLayout();
         if (savedInstanceState != null) {
             currentItem = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             isSyncActive = savedInstanceState.getBoolean(STATE_SYNC_ACTIVE);
+
         }
         navigationView.getMenu().performIdentifierAction(currentItem, 0);//default main fragment
         TvGuideSyncAdapter.initializeSyncAdapter(this);//sync data now
@@ -90,6 +96,18 @@ public class MainActivity extends AppCompatActivity  implements
         outState.putInt(STATE_SELECTED_POSITION, currentItem);
         outState.putBoolean(STATE_SYNC_ACTIVE, isSyncActive);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(syncContentReceiver);
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateSyncAndDateView(isSyncActive);
     }
 
     private void setupDrawerLayout() {
@@ -179,20 +197,6 @@ public class MainActivity extends AppCompatActivity  implements
     }
 
     @Override
-    protected void onPause() {
-        ContentResolver.removeStatusChangeListener(syncMonitor);
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        syncMonitor = ContentResolver.addStatusChangeListener(
-                ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE | ContentResolver.SYNC_OBSERVER_TYPE_PENDING, this);
-        onStatusChanged(1);
-    }
-
-    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         switch (id) {
@@ -232,35 +236,6 @@ public class MainActivity extends AppCompatActivity  implements
         FragmentManager fm = getSupportFragmentManager();
         fm.popBackStack();
         fm.beginTransaction().replace(R.id.frame_container, fragment, tag).commit();
-    }
-
-    @Override
-    public void onStatusChanged(int which) {
-        onSyncStatusChanged(ContentResolver.isSyncActive(TvGuideSyncAdapter.getSyncAccount(this),
-                getResources().getString(R.string.content_authority)));
-    }
-
-    private void onSyncStatusChanged(final boolean isSyncing) {
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (progressBar != null) {
-                    progressBar.setVisibility(isSyncing ? View.VISIBLE : View.GONE);
-                }
-                if (lastSyncDateView != null) {
-                    long lsatSyncDate =  Utility.getLastSyncTime(MainActivity.this);
-                    SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
-                    lastSyncDateView.setText(getString(R.string.format_last_sync, format.format(lsatSyncDate)));
-                }
-               if (!isSyncActive && isSyncing) {
-                   if (Utility.isNotDuplicateSync(MainActivity.this)) blueToast(getString(R.string.notify_sync_start));
-               } else if (isSyncActive && !isSyncing){
-                   if (Utility.isNotDuplicateSync(MainActivity.this)) blueToast(getString(R.string.sync_success));
-               }
-               isSyncActive = isSyncing;
-               getContentResolver().notifyChange(TvContract.ChannelEntry.CONTENT_URI, null);
-            }
-        });
     }
 
     @Override
@@ -336,4 +311,30 @@ public class MainActivity extends AppCompatActivity  implements
                 new String[]{String.valueOf(id)});
     }
 
+    private void updateSyncAndDateView(boolean isSyncActive) {
+        if (progressBar != null) {
+            progressBar.setVisibility(isSyncActive ? View.VISIBLE : View.GONE);
+        }
+        if (lastSyncDateView != null) {
+            long lsatSyncDate =  Utility.getLastSyncTime(MainActivity.this);
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+            lastSyncDateView.setText(getString(R.string.format_last_sync, format.format(lsatSyncDate)));
+        }
+    }
+    public class SyncContentReceiver extends BroadcastReceiver {
+
+        public static final String SYNC_RESPONSE_STATUS
+                = "com.havrylyuk.weather.intent.action.SYNC_RESPONSE_STATUS";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null) {
+                boolean isCompleted =  intent.getIntExtra(TvGuideSyncAdapter.EXTRA_KEY_SYNC, 0) == 1;
+                Log.d(MainActivity.class.getSimpleName(),"sync status change isCompleted="+isCompleted);
+                isSyncActive = !isCompleted;
+                updateSyncAndDateView(isSyncActive);
+                blueToast(isCompleted  ? getString(R.string.sync_success) : getString(R.string.notify_sync_start));
+            }
+        }
+    }
 }

@@ -56,6 +56,7 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static final long FLEX_DIVIDER = 10;
     public static final int RUN_NEXT_SYNC_DELAY = 30;//seconds
+    public static final String EXTRA_KEY_SYNC = "com.havrylyuk.tvapp.sync.EXTRA_KEY_SYNC";
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({SERVER_STATUS_OK, SERVER_STATUS_DOWN, STATUS_SERVER_NOT_FOUND,
@@ -87,6 +88,7 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
 
         if ( Utility.isNotDuplicateSync(getContext())) {
             if (BuildConfig.DEBUG) Log.d(LOG_TAG,"Start sync!");
+            sendSyncStatus(START_SYNC);
             final TvService service = TvApiClient.getClient().create(TvService.class);
             syncCategories(service, provider, syncResult);
             syncChannels(service, provider, syncResult);
@@ -95,6 +97,7 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
             preferencesHelper.setLastSyncTime(getContext().getString(R.string.pref_last_sync_time_key),
                                                 System.currentTimeMillis());
             preferencesHelper.setFirstRun(getContext().getString(R.string.pref_fist_run_key),false);
+            sendSyncStatus(END_SYNC);
             if (BuildConfig.DEBUG) Log.d(LOG_TAG,"End sync!");
         }
     }
@@ -104,11 +107,11 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
             Call<List<TvCategory>> responseCall = service.getCategories();
             Response<List<TvCategory>> response = responseCall.execute();
             if (response.isSuccessful()){
-                List<TvCategory> tvCategories = response.body();
-                if (tvCategories != null) {
-                    ContentValues[] values = new ContentValues[tvCategories.size()];
-                    for (int i = 0; i < tvCategories.size(); i++) {
-                        values[i] = categoryToContentValues(tvCategories.get(i));
+                List<TvCategory> categories = response.body();
+                if (categories != null) {
+                    ContentValues[] values = new ContentValues[categories.size()];
+                    for (int i = 0; i < categories.size(); i++) {
+                        values[i] = categoryToContentValues(categories.get(i));
                     }
                     syncResult.stats.numInserts =+ provider.bulkInsert(CategoryEntry.CONTENT_URI, values );
                     setTvServerStatus(SERVER_STATUS_OK);
@@ -379,5 +382,17 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
                 }
         }
         return message;
+    }
+
+    private static final int START_SYNC = 0;
+    private static final int END_SYNC = 1;
+
+    // send sync status
+    private void sendSyncStatus(int status) {
+        Intent intentUpdate = new Intent();
+        intentUpdate.setAction(MainActivity.SyncContentReceiver.SYNC_RESPONSE_STATUS);
+        intentUpdate.addCategory(Intent.CATEGORY_DEFAULT);
+        intentUpdate.putExtra(EXTRA_KEY_SYNC, status);
+        getContext().sendBroadcast(intentUpdate);
     }
 }
