@@ -72,13 +72,13 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int SERVER_STATUS_ERROR = 5;
 
     private final static String LOG_TAG = TvGuideSyncAdapter.class.getSimpleName();
-    private PreferencesHelper preferencesHelper;
+    private PreferencesHelper prefHelper;
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
     private static final int TV_GUIDE_NOTIFICATION_ID = 3004;
 
     public TvGuideSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
-        preferencesHelper = PreferencesHelper.getInstance();
+        prefHelper = PreferencesHelper.getInstance();
     }
 
     public TvGuideSyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
@@ -96,9 +96,9 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
             syncChannels(service, provider, syncResult);
             syncPrograms(service, provider, syncResult);
             notifyTvGuide(syncResult.stats.numInserts, syncResult.stats.numIoExceptions);
-            preferencesHelper.setLastSyncTime(getContext().getString(R.string.pref_last_sync_time_key),
+            prefHelper.setLastSyncTime(getContext().getString(R.string.pref_last_sync_time_key),
                                                 System.currentTimeMillis());
-            preferencesHelper.setFirstRun(getContext().getString(R.string.pref_fist_run_key),false);
+            prefHelper.setFirstRun(getContext().getString(R.string.pref_fist_run_key),false);
             sendSyncStatus(END_SYNC);
             if (BuildConfig.DEBUG) Log.d(LOG_TAG,"End sync!");
         }
@@ -188,7 +188,7 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void syncPrograms(TvService service, ContentProviderClient provider, SyncResult syncResult) {
         try {
-            int countDays = Integer.parseInt(preferencesHelper.getScheduleDaysCount(getContext().getString(R.string.pref_schedule_days_count_key)));
+            int countDays = Integer.parseInt(prefHelper.getScheduleDaysCount(getContext().getString(R.string.pref_schedule_days_count_key)));
             getContext().getContentResolver().delete(ProgramEntry.CONTENT_URI, null, null);
                 for (int d = 0; d < countDays; d++) {
                     Call<List<TvProgram>> responseCall = service.getPrograms(System.currentTimeMillis() + DAY_IN_MILLIS * d);
@@ -325,7 +325,7 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void notifyTvGuide(long updatedCount, long errorCount) {
         Context context = getContext();
-        boolean displayNotifications = preferencesHelper.showDisplayNotifications(
+        boolean displayNotifications = prefHelper.showDisplayNotifications(
                 context.getString(R.string.pref_enable_notifications_key));
         if ( displayNotifications ) {
             String contentText = getNotifyServerStatusMessage(updatedCount, errorCount);
@@ -356,7 +356,7 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
      private void setTvServerStatus(@TvServerStatus int serverStatus){
-         preferencesHelper.setTvServerStatus(
+         prefHelper.setTvServerStatus(
                  getContext().getString(R.string.pref_server_status_key),
                  serverStatus);
     }
@@ -365,7 +365,7 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
     private String getNotifyServerStatusMessage(long updatedCount, long errorCount) {
         String message = getContext().getString(R.string.satus_empty_list);
         @TvGuideSyncAdapter.TvServerStatus int status =
-                preferencesHelper.getTvServerStatus(getContext().getString(R.string.pref_server_status_key));
+                prefHelper.getTvServerStatus(getContext().getString(R.string.pref_server_status_key));
         switch (status) {
             case TvGuideSyncAdapter.SERVER_STATUS_OK:
                 message = getContext().getString(R.string.notify_sync_success, updatedCount);
