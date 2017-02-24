@@ -3,7 +3,6 @@ apply from: '../versions.gradle'
 apply from: '../api.gradle'
 
 android {
-
     signingConfigs {
         config {
             try {
