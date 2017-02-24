@@ -4,6 +4,8 @@
   <img src="screenshot/logo.png" >
 </p>
 
+[![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 Simple Android application for TV channels show programs.
 
 ## Application concept:
