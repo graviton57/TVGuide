@@ -58,7 +58,6 @@ public class ProgramsTabsFragment extends Fragment implements LoaderManager.Load
         sortBy = preferencesHelper.getChannelSortType(getString(R.string.pref_sort_channel_key));
         if (savedInstanceState != null) {
             selectedTabPosition = savedInstanceState.getInt(SELECTED_TAB_ITEM);
-            Log.w("ProgramsTabsFragment","selectedTabPosition="+ selectedTabPosition);
         }
     }
 
@@ -135,10 +134,9 @@ public class ProgramsTabsFragment extends Fragment implements LoaderManager.Load
                 if (viewPager != null) {
                     viewPager.setAdapter(viewPagerAdapter);
                     tabLayout.setupWithViewPager(viewPager);
-                    Log.w("ProgramsTabsFragment","onLoadFinished selectedTabPosition="+ selectedTabPosition);
                     viewPager.setCurrentItem(selectedTabPosition);
-                } else Log.w("ProgramsTabsFragment","onLoadFinished viewpager= null");
-            }else Log.w("ProgramsTabsFragment","onLoadFinished data= null");
+                }
+            }
         }
     }
 
