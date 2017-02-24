@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.havrylyuk.tvapp.R;
 import com.havrylyuk.tvapp.activity.MainActivity;
@@ -50,6 +51,7 @@ public class ChannelFragment extends Fragment implements LoaderManager.LoaderCal
     public static final int  COL_IMAGE = 4;
     public static final int  COL_FAV = 5;
     public static final int  COL_URL = 6;
+    private TextView emptyListView;
 
     public interface OnChangeFavoriteListener {
         void onChangeFavoriteState(long id, boolean value);
@@ -88,6 +90,7 @@ public class ChannelFragment extends Fragment implements LoaderManager.LoaderCal
         }
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         setupRecyclerView(recyclerView);
+        emptyListView = (TextView) rootView.findViewById(R.id.recycler_view_empty_content);
         ((MainActivity)getActivity()).updateChannelView(getString(R.string.item_channels));
         ((MainActivity)getActivity()).setChannelLogo(R.drawable.img_channel);
         getActivity().getSupportLoaderManager()
@@ -129,7 +132,12 @@ public class ChannelFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (loader.getId() == CHANNELS_LOADER) {
-            if (data != null) mAdapter.setCursor(data);
+            if (data != null) {
+                mAdapter.setCursor(data);
+                if (emptyListView != null) {
+                    emptyListView.setVisibility(data.getCount() == 0 ? View.VISIBLE : View.GONE);
+                }
+            }
         }
 
     }

@@ -1,5 +1,6 @@
 package com.havrylyuk.tvapp.fragment;
 
+import android.app.MediaRouteButton;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.havrylyuk.tvapp.R;
 import com.havrylyuk.tvapp.adapter.ProgramCursorAdapter;
@@ -52,6 +54,7 @@ public class ProgramFragment extends Fragment implements LoaderManager.LoaderCal
     private String date;
     private long channelId = INVALID_CHANNEL_ID;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView emptyListView;
 
     public static Fragment newInstance(long channelId, String picked_date) {
         ProgramFragment fragment = new ProgramFragment();
@@ -80,6 +83,7 @@ public class ProgramFragment extends Fragment implements LoaderManager.LoaderCal
         View rootView = inflater.inflate(R.layout.main_list, container, false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         setupRecyclerView(recyclerView);
+        emptyListView = (TextView) rootView.findViewById(R.id.recycler_view_empty_content);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_to_refresh);
         initSwipeToRefresh();
         getActivity().getSupportLoaderManager().initLoader((int) channelId, Bundle.EMPTY, this);
@@ -110,7 +114,12 @@ public class ProgramFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (loader.getId() == channelId) {
-            if (data != null) mAdapter.setCursor(data);
+            if (data != null) {
+                mAdapter.setCursor(data);
+                if (emptyListView != null) {
+                    emptyListView.setVisibility(data.getCount() == 0 ? View.VISIBLE : View.GONE);
+                }
+            }
             if (swipeRefreshLayout != null) {
                 swipeRefreshLayout.setRefreshing(false);
             }

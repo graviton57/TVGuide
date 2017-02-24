@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.havrylyuk.tvapp.R;
 import com.havrylyuk.tvapp.activity.MainActivity;
@@ -42,6 +43,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     public static final int  COL_IMAGE = 3;
 
     private OnSelectCategoryListener listener;
+    private TextView emptyListView;
 
     public interface OnSelectCategoryListener {
         void onCategoryClick(long id);
@@ -72,6 +74,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
         ((MainActivity)getActivity()).updateChannelView(getString(R.string.item_categories));
         ((MainActivity)getActivity()).setChannelLogo(R.drawable.img_categories);
         setupRecyclerView(recyclerView);
+        emptyListView = (TextView) rootView.findViewById(R.id.recycler_view_empty_content);
         getActivity().getSupportLoaderManager().initLoader(CATEGORIES_LOADER, Bundle.EMPTY, this);
         return rootView;
     }
@@ -108,7 +111,12 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (loader.getId() == CATEGORIES_LOADER) {
-            if (data != null) mAdapter.setCursor(data);
+            if (data != null) {
+                mAdapter.setCursor(data);
+                if (emptyListView != null) {
+                    emptyListView.setVisibility(data.getCount() == 0 ? View.VISIBLE : View.GONE);
+                }
+            }
         }
 
     }

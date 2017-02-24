@@ -112,6 +112,7 @@ public class FavoriteFragment extends Fragment implements LoaderManager.LoaderCa
             if (data != null) {
                 if (emptyListView != null) {
                     emptyListView.setVisibility(data.getCount() == 0 ? View.VISIBLE : View.GONE);
+                    emptyListView.setText(getString(R.string.empty_favorites_list));
                 }
                 mAdapter.setCursor(data);
             }
