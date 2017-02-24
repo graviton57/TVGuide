@@ -1,6 +1,5 @@
 package com.havrylyuk.tvapp.fragment;
 
-import android.app.MediaRouteButton;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
