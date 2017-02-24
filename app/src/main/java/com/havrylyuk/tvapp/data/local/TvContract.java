@@ -38,7 +38,7 @@ public class TvContract {
 
     public static final String PATH_CATEGORY = "category";
     public static final String PATH_CHANEL = "chanel";
-    public static final String PATH_PROGRAM = "ic_menu_program";
+    public static final String PATH_PROGRAM = "program";
 
 
     public static final class CategoryEntry implements BaseColumns {
@@ -107,7 +107,7 @@ public class TvContract {
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PROGRAM;
 
         // Table name
-        public static final String TABLE_NAME = "ic_menu_program";
+        public static final String TABLE_NAME = "program";
 
         public static final String COLUMN_PROGRAM_CHANEL_ID = "channel_id";
         public static final String COLUMN_PROGRAM_DATE = "date";

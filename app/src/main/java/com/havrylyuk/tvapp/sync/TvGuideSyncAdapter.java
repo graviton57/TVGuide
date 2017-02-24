@@ -104,11 +104,11 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
             Call<List<TvCategory>> responseCall = service.getCategories();
             Response<List<TvCategory>> response = responseCall.execute();
             if (response.isSuccessful()){
-                List<TvCategory> categories = response.body();
-                if (categories != null) {
-                    ContentValues[] values = new ContentValues[categories.size()];
-                    for (int i = 0; i < categories.size(); i++) {
-                        values[i] = categoryToContentValues(categories.get(i));
+                List<TvCategory> tvCategories = response.body();
+                if (tvCategories != null) {
+                    ContentValues[] values = new ContentValues[tvCategories.size()];
+                    for (int i = 0; i < tvCategories.size(); i++) {
+                        values[i] = categoryToContentValues(tvCategories.get(i));
                     }
                     syncResult.stats.numInserts =+ provider.bulkInsert(CategoryEntry.CONTENT_URI, values );
                     setTvServerStatus(SERVER_STATUS_OK);
