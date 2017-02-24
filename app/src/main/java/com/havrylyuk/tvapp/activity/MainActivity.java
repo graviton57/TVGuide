@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.havrylyuk.tvapp.BuildConfig;
 import com.havrylyuk.tvapp.R;
 import com.havrylyuk.tvapp.data.local.TvContract;
 import com.havrylyuk.tvapp.dialog.SortChannelDialog;
@@ -329,11 +330,11 @@ public class MainActivity extends AppCompatActivity  implements
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null) {
-                boolean isCompleted =  intent.getIntExtra(TvGuideSyncAdapter.EXTRA_KEY_SYNC, 0) == 1;
-                Log.d(MainActivity.class.getSimpleName(),"sync status change isCompleted="+isCompleted);
-                isSyncActive = !isCompleted;
+                boolean isSyncCompleted =  intent.getIntExtra(TvGuideSyncAdapter.EXTRA_KEY_SYNC, 0) == 1;
+                if (BuildConfig.DEBUG) Log.d(MainActivity.class.getSimpleName(),"sync status change isCompleted="+isSyncCompleted);
+                isSyncActive = !isSyncCompleted;
                 updateSyncAndDateView(isSyncActive);
-                blueToast(isCompleted  ? getString(R.string.sync_success) : getString(R.string.notify_sync_start));
+                blueToast(isSyncCompleted  ? getString(R.string.sync_success) : getString(R.string.notify_sync_start));
             }
         }
     }
