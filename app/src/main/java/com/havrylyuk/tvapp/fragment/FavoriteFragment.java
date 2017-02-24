@@ -15,6 +15,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.havrylyuk.tvapp.R;
 import com.havrylyuk.tvapp.activity.MainActivity;
@@ -33,6 +34,7 @@ public class FavoriteFragment extends Fragment implements LoaderManager.LoaderCa
 
     private static final int FAVORITE_LOADER = 1003;
     private ChannelCursorAdapter mAdapter;
+    private TextView emptyListView;
 
     public FavoriteFragment() {
     }
@@ -42,6 +44,7 @@ public class FavoriteFragment extends Fragment implements LoaderManager.LoaderCa
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.content_list, container, false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        emptyListView = (TextView) rootView.findViewById(R.id.recycler_view_empty_content);
         setupRecyclerView(recyclerView);
         ((MainActivity)getActivity()).updateChannelView(getString(R.string.item_preferred));
         ((MainActivity)getActivity()).setChannelLogo(R.drawable.img_favorites);
@@ -107,6 +110,9 @@ public class FavoriteFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (loader.getId() == FAVORITE_LOADER) {
             if (data != null) {
+                if (emptyListView != null) {
+                    emptyListView.setVisibility(data.getCount() == 0 ? View.VISIBLE : View.GONE);
+                }
                 mAdapter.setCursor(data);
             }
         }

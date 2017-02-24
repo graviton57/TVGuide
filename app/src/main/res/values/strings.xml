@@ -56,8 +56,10 @@
     <string name="satus_empty_list_server_error">No Tv Guide information available. The server is not returning valid data.Errors:<xliff:g id="area">%1d</xliff:g></string>
     <string name="satus_empty_list_no_network">No Tv Guide information available. The network is not available to fetch weather data.</string>
     <string name="satus_empty_list_bad_request">No Tv Guide information available. Bad request.</string>
+    <string name="empty_favorites_list">Here can be your favorite TV channels …</string>
 
     <string name="image_content_description" translatable="false">Tv channel image</string>
+
 
 
 </resources>
