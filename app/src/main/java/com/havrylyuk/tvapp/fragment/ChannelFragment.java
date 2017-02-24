@@ -134,7 +134,7 @@ public class ChannelFragment extends Fragment implements LoaderManager.LoaderCal
         if (loader.getId() == CHANNELS_LOADER) {
             if (data != null) {
                 mAdapter.setCursor(data);
-                if (emptyListView != null) {
+                if (emptyListView != null && isAdded()) {
                     emptyListView.setVisibility(data.getCount() == 0 ? View.VISIBLE : View.GONE);
                 }
             }

@@ -113,7 +113,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
         if (loader.getId() == CATEGORIES_LOADER) {
             if (data != null) {
                 mAdapter.setCursor(data);
-                if (emptyListView != null) {
+                if (emptyListView != null && isAdded()) {
                     emptyListView.setVisibility(data.getCount() == 0 ? View.VISIBLE : View.GONE);
                 }
             }
