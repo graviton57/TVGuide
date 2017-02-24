@@ -55,6 +55,7 @@
                 android:id="@+id/list_item_url"
                 tools:text="http://oll.tv/tv-channels"
                 android:layout_width="match_parent"
+                android:textColorLink="@color/colorPrimaryDark"
                 android:gravity="right"
                 android:layout_height="wrap_content"
                 android:autoLink="web"
