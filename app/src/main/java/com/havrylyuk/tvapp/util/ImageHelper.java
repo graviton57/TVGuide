@@ -1,14 +1,15 @@
 package com.havrylyuk.tvapp.util;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.havrylyuk.tvapp.R;
 import com.squareup.picasso.Picasso;
 
-import java.net.MalformedURLException;
+import java.net.IDN;
+import java.net.URI;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 /**
  *
@@ -19,14 +20,8 @@ import java.net.URL;
 public class ImageHelper {
 
     public static void load(@NonNull String url, ImageView imageView) {
-        String resultUrl = validateImageUrl(url);
-        try {
-            resultUrl = new URL(Uri.encode(url)).toString();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
         Picasso.with(imageView.getContext())
-                .load(resultUrl)
+                .load(validateUrlIfNeeded(url))
                 .error(R.drawable.ic_placeholder)
                 .into(imageView);
     }
@@ -38,8 +33,31 @@ public class ImageHelper {
                 .into(imageView);
     }
 
-    private static String validateImageUrl(String checkedUrl) {
-        return checkedUrl.startsWith("http://") ? checkedUrl : checkedUrl.substring(checkedUrl.indexOf("http://"));
-
+    // http://xn--80aagu7abdhcr.xn--p1ai ->  http://артпаровоз.рф
+    private static String convertUrlToPunycode(String url) {
+        try {
+            URL u = new URL(url);
+            URI p = new URI(u.getProtocol(), null, IDN.toASCII(u.getHost()),
+                    u.getPort(), u.getPath(), u.getQuery(), u.getRef());
+            return p.toString();
+        } catch (Exception e) {
+            return null;
+        }
     }
+
+    /**
+     * fix url if needed
+     * example -> Мhttp://lion-tv.com/uploads/posts/2016-06/1467086005_muztv.png
+     */
+    private static String validateUrlIfNeeded(String url) {
+        if (!Charset.forName("US-ASCII").newEncoder().canEncode(url)) {
+            if (url.toLowerCase().startsWith("http://") || url.toLowerCase().startsWith("https://")) {
+                url = convertUrlToPunycode(url);
+            } else {
+                url = convertUrlToPunycode(url.substring(url.indexOf("http://")));
+            }
+        }
+        return url;
+    }
+
 }
