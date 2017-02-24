@@ -8,6 +8,8 @@
 
 Simple Android application for TV channels show programs.
 
+All main and optional tasks fulfilled!
+
 ## Application concept:
 
 ![alt text](screenshot/conclusion.png "Application concept")
