@@ -13,7 +13,7 @@ All main and optional tasks fulfilled!
 ## Application concept:
 
 ![alt text](screenshot/conclusion.png "Application concept")
-### Account Manager manages user credentials
+### Account Manager manages user credentials(in our case the fake account)
 ![alt text](screenshot/account_manager.png "Account Manager")
 ### Sync Manager keeps data up to date
 ![alt text](screenshot/sync_manager.png "Sync Manager")
