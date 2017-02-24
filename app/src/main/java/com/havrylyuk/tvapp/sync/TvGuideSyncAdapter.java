@@ -21,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
@@ -135,7 +136,7 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private ContentValues categoryToContentValues(TvCategory category) {
+    private ContentValues categoryToContentValues(@NonNull TvCategory category) {
         ContentValues result =  new ContentValues();
         result.put(CategoryEntry.COLUMN_CATEGORY_ID,category.getId());
         result.put(CategoryEntry.COLUMN_CATEGORY_TITLE,category.getTitle());
@@ -175,7 +176,7 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private ContentValues channelToContentValues(TvChannel tvChannel) {
+    private ContentValues channelToContentValues(@NonNull TvChannel tvChannel) {
         ContentValues result =  new ContentValues();
         result.put(ChannelEntry.COLUMN_CHANNEL_ID, tvChannel.getId());
         result.put(ChannelEntry.COLUMN_CHANNEL_NAME, tvChannel.getName());
@@ -221,7 +222,7 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private ContentValues programToContentValues(TvProgram tvProgram) {
+    private ContentValues programToContentValues(@NonNull TvProgram tvProgram) {
         ContentValues result =  new ContentValues();
         result.put(ProgramEntry.COLUMN_PROGRAM_CHANEL_ID, tvProgram.getChannelId());
         result.put(ProgramEntry.COLUMN_PROGRAM_DATE, tvProgram.getDate());
