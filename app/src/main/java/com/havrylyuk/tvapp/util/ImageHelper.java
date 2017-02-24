@@ -19,12 +19,11 @@ import java.net.URL;
 public class ImageHelper {
 
     public static void load(@NonNull String url, ImageView imageView) {
-        String resultUrl ;
+        String resultUrl = validateImageUrl(url);
         try {
             resultUrl = new URL(Uri.encode(url)).toString();
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            resultUrl = url;
         }
         Picasso.with(imageView.getContext())
                 .load(resultUrl)
@@ -37,5 +36,10 @@ public class ImageHelper {
                 .load(id)
                 .error(R.drawable.ic_placeholder)
                 .into(imageView);
+    }
+
+    private static String validateImageUrl(String checkedUrl) {
+        return checkedUrl.startsWith("http://") ? checkedUrl : checkedUrl.substring(checkedUrl.indexOf("http://"));
+
     }
 }
