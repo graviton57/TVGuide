@@ -46,7 +46,7 @@
     <string name="date_picker_dialog_title">Select Date for Tv Listing</string>
 
     <!-- Notification and sync status strings -->
-    <string name="notify_sync_start">Syncing …</string>
+    <string name="notify_sync_start">Start syncing …</string>
     <string name="notify_sync_success">Sync complete!\nSuccessful updated:<xliff:g id="updated">%1d</xliff:g> records.</string>
     <string name="sync_success">Sync successful complete!</string>
     <string name="format_notification">Updated: <xliff:g id="updated">%1$s</xliff:g> Errors: <xliff:g id="errors">%2$s</xliff:g></string>
