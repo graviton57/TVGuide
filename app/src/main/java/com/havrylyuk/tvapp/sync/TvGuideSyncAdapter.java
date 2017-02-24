@@ -363,7 +363,7 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @SuppressLint("SwitchIntDef")
     private String getNotifyServerStatusMessage(long updatedCount, long errorCount) {
-        String message = getContext().getString(R.string.satus_empty_list);
+        String message = getContext().getString(R.string.status_empty_list);
         @TvGuideSyncAdapter.TvServerStatus int status =
                 prefHelper.getTvServerStatus(getContext().getString(R.string.pref_server_status_key));
         switch (status) {
@@ -371,17 +371,17 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
                 message = getContext().getString(R.string.notify_sync_success, updatedCount);
                 break;
             case TvGuideSyncAdapter.SERVER_STATUS_DOWN:
-                message = getContext().getString(R.string.satus_empty_list_server_down);
+                message = getContext().getString(R.string.status_empty_list_server_down);
                 break;
             case TvGuideSyncAdapter.SERVER_STATUS_ERROR:
-                message = getContext().getString(R.string.satus_empty_list_server_error, errorCount);
+                message = getContext().getString(R.string.status_empty_list_server_error, errorCount);
                 break;
             case TvGuideSyncAdapter.SERVER_STATUS_NOT_FOUND:
-                message = getContext().getString(R.string.satus_empty_list_bad_request);
+                message = getContext().getString(R.string.status_empty_list_bad_request);
                 break;
             default:
                 if (!Utility.isNetworkAvailable(getContext())) {
-                    message = getContext().getString(R.string.satus_empty_list_no_network);
+                    message = getContext().getString(R.string.status_empty_list_no_network);
                 }
         }
         return message;
