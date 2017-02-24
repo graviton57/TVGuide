@@ -1,10 +1,14 @@
 package com.havrylyuk.tvapp.util;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.havrylyuk.tvapp.R;
 import com.squareup.picasso.Picasso;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  *
@@ -15,8 +19,15 @@ import com.squareup.picasso.Picasso;
 public class ImageHelper {
 
     public static void load(@NonNull String url, ImageView imageView) {
+        String resultUrl ;
+        try {
+            resultUrl = new URL(Uri.encode(url)).toString();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            resultUrl = url;
+        }
         Picasso.with(imageView.getContext())
-                .load(url)
+                .load(resultUrl)
                 .error(R.drawable.ic_placeholder)
                 .into(imageView);
     }
