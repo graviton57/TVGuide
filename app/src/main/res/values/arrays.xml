@@ -52,13 +52,13 @@
     <string name="pref_auto_schedule_month">One Month</string>
 
     <string-array name="arr_auto_schedule_days_count_values" translatable="false">
+        <item>1</item>
         <item>@string/pref_auto_schedule_days_default_value</item>
-        <item>7</item>
         <item>30</item>
     </string-array>
     <!-- Once dialy-->
     <string name="pref_auto_sync_interval_default_value" translatable="false" >86400</string>
     <!-- One day-->
-    <string name="pref_auto_schedule_days_default_value" translatable="false" >1</string>
+    <string name="pref_auto_schedule_days_default_value" translatable="false" >7</string>
 
 </resources>

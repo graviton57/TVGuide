@@ -43,7 +43,7 @@ public class PreferencesHelper {
 
     //for the loading of data from SharedPreferences
     public String getScheduleDaysCount(String prefName){
-        return sharedPreferences.getString(prefName, "1");
+        return sharedPreferences.getString(prefName, "7");
     }
 
     public Boolean showDisplayNotifications(String prefName){
