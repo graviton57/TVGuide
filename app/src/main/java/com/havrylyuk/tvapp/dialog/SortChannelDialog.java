@@ -1,5 +1,6 @@
 package com.havrylyuk.tvapp.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -47,6 +48,7 @@ public class SortChannelDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        @SuppressLint("InflateParams")
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_sort, null);
         final RadioButton radioDesc  =(RadioButton) view.findViewById(R.id.radio_btn_desc);
         ListView sortList  =(ListView) view.findViewById(R.id.sort_list_view);

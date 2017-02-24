@@ -21,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.IntDef;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
@@ -334,9 +335,10 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
                     String title = context.getString(R.string.app_name);
                     NotificationCompat.Builder mBuilder =
                             (NotificationCompat.Builder) new NotificationCompat.Builder(getContext())
-                                    .setColor(resources.getColor(R.color.colorPrimaryLight))
+                                    .setColor(ContextCompat.getColor(context,R.color.colorPrimaryLight))
                                     .setSmallIcon(iconId)
                                     .setLargeIcon(largeIcon)
+                                    .setAutoCancel(true)
                                     .setContentTitle(title)
                                     .setContentText(contentText);
                     Intent resultIntent = new Intent(context, MainActivity.class);
