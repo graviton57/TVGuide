@@ -61,13 +61,13 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String EXTRA_KEY_SYNC = "com.havrylyuk.tvapp.sync.EXTRA_KEY_SYNC";
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({SERVER_STATUS_OK, SERVER_STATUS_DOWN, STATUS_SERVER_NOT_FOUND,
-            STATUS_SERVER_BAD_REQ, SERVER_STATUS_UNKNOWN,SERVER_STATUS_ERROR})
+    @IntDef({SERVER_STATUS_OK, SERVER_STATUS_DOWN, SERVER_STATUS_NOT_FOUND,
+            SERVER_STATUS_BAD_REQ, SERVER_STATUS_UNKNOWN,SERVER_STATUS_ERROR})
     public @interface TvServerStatus {}
     public static final int SERVER_STATUS_OK = 0;
     public static final int SERVER_STATUS_DOWN = 1;
-    public static final int STATUS_SERVER_NOT_FOUND = 2;
-    public static final int STATUS_SERVER_BAD_REQ = 3;
+    public static final int SERVER_STATUS_NOT_FOUND = 2;
+    public static final int SERVER_STATUS_BAD_REQ = 3;
     public static final int SERVER_STATUS_UNKNOWN = 4;
     public static final int SERVER_STATUS_ERROR = 5;
 
@@ -235,11 +235,11 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
     private void genericError(int errorCode) {
         switch (errorCode) {
             case 400:
-                setTvServerStatus(STATUS_SERVER_BAD_REQ);
+                setTvServerStatus(SERVER_STATUS_BAD_REQ);
                 Log.e(LOG_TAG, "Error 400, Bad Request");
                 break;
             case 404:
-                setTvServerStatus(STATUS_SERVER_NOT_FOUND);
+                setTvServerStatus(SERVER_STATUS_NOT_FOUND);
                 Log.e(LOG_TAG, "Error 404, Not Found");
                 break;
             default:
@@ -376,7 +376,7 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
             case TvGuideSyncAdapter.SERVER_STATUS_ERROR:
                 message = getContext().getString(R.string.satus_empty_list_server_error, errorCount);
                 break;
-            case TvGuideSyncAdapter.STATUS_SERVER_NOT_FOUND:
+            case TvGuideSyncAdapter.SERVER_STATUS_NOT_FOUND:
                 message = getContext().getString(R.string.satus_empty_list_bad_request);
                 break;
             default:
