@@ -222,7 +222,12 @@ public class MainActivity extends AppCompatActivity  implements
                 TvGuideSyncAdapter.syncImmediately(this);
                 break;
             case R.id.nav_home:
-                switchToFragment(id, new ProgramsTabsFragment(), ProgramsTabsFragment.MAIN_FRAGMENT_TAG);
+                ProgramsTabsFragment mainFragment = (ProgramsTabsFragment) getSupportFragmentManager()
+                        .findFragmentByTag(ProgramsTabsFragment.MAIN_FRAGMENT_TAG);
+                if (mainFragment == null) {
+                    mainFragment = (ProgramsTabsFragment) ProgramsTabsFragment.newInstance();
+                }
+                switchToFragment(id, mainFragment, ProgramsTabsFragment.MAIN_FRAGMENT_TAG);
                 updateChannelView();
                 break;
         }
