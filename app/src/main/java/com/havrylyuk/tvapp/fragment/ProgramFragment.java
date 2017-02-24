@@ -113,15 +113,16 @@ public class ProgramFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (loader.getId() == channelId) {
-            if (data != null) {
+            if (data != null && isAdded()) {
                 mAdapter.setCursor(data);
-                if (emptyListView != null && isAdded()) {
+                if (emptyListView != null ) {
                     emptyListView.setVisibility(data.getCount() == 0 ? View.VISIBLE : View.GONE);
                 }
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
-            if (swipeRefreshLayout != null && isAdded()) {
-                swipeRefreshLayout.setRefreshing(false);
-            }
+
         }
     }
 

@@ -132,9 +132,9 @@ public class ChannelFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (loader.getId() == CHANNELS_LOADER) {
-            if (data != null) {
+            if (data != null && isAdded()) {
                 mAdapter.setCursor(data);
-                if (emptyListView != null && isAdded()) {
+                if (emptyListView != null ) {
                     emptyListView.setVisibility(data.getCount() == 0 ? View.VISIBLE : View.GONE);
                 }
             }

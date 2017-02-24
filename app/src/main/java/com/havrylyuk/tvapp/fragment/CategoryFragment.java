@@ -111,9 +111,9 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (loader.getId() == CATEGORIES_LOADER) {
-            if (data != null) {
+            if (data != null && isAdded()) {
                 mAdapter.setCursor(data);
-                if (emptyListView != null && isAdded()) {
+                if (emptyListView != null ) {
                     emptyListView.setVisibility(data.getCount() == 0 ? View.VISIBLE : View.GONE);
                 }
             }
