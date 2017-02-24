@@ -47,7 +47,7 @@ public class ImageHelper {
 
     /**
      * fix url if needed
-     * example -> Мhttp://lion-tv.com/uploads/posts/2016-06/1467086005_muztv.png
+     * example bad url -> Мhttp://lion-tv.com/uploads/posts/2016-06/1467086005_muztv.png
      */
     private static String validateUrlIfNeeded(String url) {
         if (!Charset.forName("US-ASCII").newEncoder().canEncode(url)) {
