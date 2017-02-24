@@ -289,6 +289,7 @@ public class MainActivity extends AppCompatActivity  implements
                 .beginTransaction()
                 .replace(R.id.frame_container, channelFragment, ChannelFragment.CHANNELS_FRAGMENT_TAG)
                 .commit();
+        currentItem = R.id.nav_chanel;
     }
 
     private void blueToast(String message) {
