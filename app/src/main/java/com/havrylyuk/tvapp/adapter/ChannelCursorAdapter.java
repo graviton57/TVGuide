@@ -101,17 +101,6 @@ public class ChannelCursorAdapter extends RecyclerView.Adapter<ChannelCursorAdap
         return super.getItemId(position);
     }
 
-    public void removeFavorite(int position) {
-        if (cursor != null && cursor.moveToPosition(position)) {
-            long id = cursor.getLong(ChannelFragment.COL_ID);
-            ContentValues cv = new ContentValues();
-            cv.put(ChannelEntry.COLUMN_CHANNEL_FAVORITE, 0);
-            context.getContentResolver().update(ChannelEntry.CONTENT_URI,
-                    cv,
-                    ChannelEntry.TABLE_NAME + "." + ChannelEntry._ID + " = ?",
-                    new String[]{String.valueOf(id)});
-        }
-    }
     public void setListener(@NonNull OnFavoriteClickListener listener) {
         this.listener = listener;
     }
