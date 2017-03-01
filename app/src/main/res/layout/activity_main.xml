@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.rom4ek.arcnavigationview.ArcNavigationView
+    <!--<com.rom4ek.arcnavigationview.ArcNavigationView
         android:id="@+id/nav_drawer_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -25,6 +25,14 @@
         app:arc_width="96dp"
         app:itemBackground="@android:color/white"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer"/>
+        app:menu="@menu/activity_main_drawer"/>-->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_drawer_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/activity_main_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

@@ -61,7 +61,5 @@ dependencies {
 
     compile "com.wdullaer:materialdatetimepicker:$datePickerVersion"
 
-    compile "com.rom4ek:arcnavigationview:$arcNavViewVersion"
-
     testCompile "junit:junit:$junitVersion"
 }
