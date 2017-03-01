@@ -1,11 +1,19 @@
 package com.havrylyuk.tvapp.adapter;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.havrylyuk.tvapp.R;
+import com.havrylyuk.tvapp.fragment.ProgramFragment;
+import com.havrylyuk.tvapp.model.TvChannel;
+import com.havrylyuk.tvapp.util.PreferencesHelper;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -15,42 +23,41 @@ import java.util.List;
 
 public class ChannelsViewPagerAdapter extends FragmentStatePagerAdapter {
 
+    private final List<TvChannel> tvChannels = new ArrayList<>();
+    private Context context;
+    private PreferencesHelper preferencesHelper;
 
-    private final List<Fragment> fragmentList = new ArrayList<>();
-    private final List<String> fragmentTitleList = new ArrayList<>();
-    private final List<String> fragmentImageList = new ArrayList<>();
-
-    public ChannelsViewPagerAdapter(FragmentManager fm) {
+    public ChannelsViewPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
+        this.context = context;
+        preferencesHelper = PreferencesHelper.getInstance();
+    }
+
+    public void addItem(TvChannel tvChannel){
+        tvChannels.add(tvChannel);
+        notifyDataSetChanged();
     }
 
     @Override
     public Fragment getItem(int position) {
-        return fragmentList.get(position);
+        long channelId = tvChannels.get(position).getId();
+        long savedDate = preferencesHelper.getCurProgramsDate(context.getString(R.string.pref_program_date_key));
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        return ProgramFragment.newInstance(channelId, format.format(savedDate));
     }
 
     @Override
     public int getCount() {
-        return fragmentList.size();
+        return tvChannels.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return fragmentTitleList.get(position);
-    }
-
-    public void addFragment(Fragment fragment, String title, String imagePath) {
-        fragmentList.add(fragment);
-        fragmentTitleList.add(title);
-        fragmentImageList.add(imagePath);
-    }
-
-    public void addImagePath(String imageName) {
-        fragmentImageList.add(imageName);
+        return tvChannels.get(position).getName();
     }
 
     public String getImagePath(int position) {
-       return fragmentImageList.get(position);
+        return tvChannels.get(position).getPicture();
     }
 
 }

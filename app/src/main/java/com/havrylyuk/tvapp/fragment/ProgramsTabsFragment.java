@@ -1,6 +1,7 @@
 package com.havrylyuk.tvapp.fragment;
 
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,20 +11,16 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.havrylyuk.tvapp.R;
-import com.havrylyuk.tvapp.activity.MainActivity;
 import com.havrylyuk.tvapp.adapter.ChannelsViewPagerAdapter;
 import com.havrylyuk.tvapp.data.local.TvContract.ChannelEntry;
+import com.havrylyuk.tvapp.model.TvChannel;
 import com.havrylyuk.tvapp.util.PreferencesHelper;
 import com.havrylyuk.tvapp.util.Utility;
-
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 
 /**
@@ -35,12 +32,15 @@ public class ProgramsTabsFragment extends Fragment implements LoaderManager.Load
 
     public static final String MAIN_FRAGMENT_TAG = "com.havrylyuk.tvapp.MAIN_FRAGMENT_TAG";
 
+    public interface OnChannelTabListener {
+        void setChannelLogo(String imagePath);
+    }
+    private  OnChannelTabListener listener;
     private static final int CONTENT_LOADER = 1005;
     private static final String SELECTED_TAB_ITEM = "com.havrylyuk.tvapp.SELECTED_TAB_ITEM";
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private String sortBy;
-    private PreferencesHelper preferencesHelper;
     private ChannelsViewPagerAdapter viewPagerAdapter;
     private int selectedTabPosition;
 
@@ -52,10 +52,19 @@ public class ProgramsTabsFragment extends Fragment implements LoaderManager.Load
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnChannelTabListener) {
+            listener = (OnChannelTabListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnChannelTabListener");
+        }
+    }
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        preferencesHelper= PreferencesHelper.getInstance();
-        sortBy = preferencesHelper.getChannelSortType(getString(R.string.pref_sort_channel_key));
+        sortBy = PreferencesHelper.getInstance().getChannelSortType(getString(R.string.pref_sort_channel_key));
         if (savedInstanceState != null) {
             selectedTabPosition = savedInstanceState.getInt(SELECTED_TAB_ITEM);
         }
@@ -89,8 +98,9 @@ public class ProgramsTabsFragment extends Fragment implements LoaderManager.Load
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                ((MainActivity)getActivity()).setChannelLogo(
-                                viewPagerAdapter.getImagePath(tab.getPosition()));
+                if (listener != null) {
+                    listener.setChannelLogo(viewPagerAdapter.getImagePath(tab.getPosition()));
+                }
                 viewPager.setCurrentItem(tab.getPosition());
             }
             @Override
@@ -120,16 +130,13 @@ public class ProgramsTabsFragment extends Fragment implements LoaderManager.Load
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (loader.getId() == CONTENT_LOADER) {
             if (data != null && isAdded()) {
-                viewPagerAdapter = new ChannelsViewPagerAdapter(getChildFragmentManager());
-                long savedDate = preferencesHelper.getCurProgramsDate(getActivity().getString(R.string.pref_program_date_key));
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                viewPagerAdapter = new ChannelsViewPagerAdapter(getActivity(), getChildFragmentManager());
                 while (data.moveToNext()) {
-                    viewPagerAdapter.addFragment(
-                            ProgramFragment.newInstance(
-                            data.getLong(ChannelFragment.COL_CH_ID), format.format(savedDate)),
-                            data.getString(ChannelFragment.COL_NAME),
-                            data.getString(ChannelFragment.COL_IMAGE)
-                    );
+                    TvChannel tvChannel = new TvChannel();
+                    tvChannel.setId(data.getLong(ChannelFragment.COL_CH_ID));
+                    tvChannel.setName(data.getString(ChannelFragment.COL_NAME));
+                    tvChannel.setPicture(data.getString(ChannelFragment.COL_IMAGE));
+                    viewPagerAdapter.addItem(tvChannel);
                 }
                 if (viewPager != null) {
                     viewPager.setAdapter(viewPagerAdapter);

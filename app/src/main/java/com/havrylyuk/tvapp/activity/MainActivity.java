@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity  implements
         SortChannelDialog.OnSortApplyListener,
         DatePickerDialog.OnDateSetListener,
         CategoryFragment.OnSelectCategoryListener,
+        ProgramsTabsFragment.OnChannelTabListener,
         FavoriteFragment.OnFavoriteListener,
         ChannelFragment.OnChangeFavoriteListener{
 
