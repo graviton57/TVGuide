@@ -26,11 +26,13 @@ public class ChannelsViewPagerAdapter extends FragmentStatePagerAdapter {
     private final List<TvChannel> tvChannels = new ArrayList<>();
     private Context context;
     private PreferencesHelper preferencesHelper;
+    private SimpleDateFormat format;
 
     public ChannelsViewPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         this.context = context;
         preferencesHelper = PreferencesHelper.getInstance();
+        format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     }
 
     public void addItem(TvChannel tvChannel){
@@ -42,7 +44,6 @@ public class ChannelsViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         long channelId = tvChannels.get(position).getId();
         long savedDate = preferencesHelper.getCurProgramsDate(context.getString(R.string.pref_program_date_key));
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         return ProgramFragment.newInstance(channelId, format.format(savedDate));
     }
 
