@@ -26,7 +26,7 @@ public class ChannelsViewPagerAdapter extends FragmentStatePagerAdapter {
     private final List<TvChannel> tvChannels = new ArrayList<>();
     private Context context;
     private PreferencesHelper preferencesHelper;
-    private SimpleDateFormat format;
+    private final SimpleDateFormat format;
 
     public ChannelsViewPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
