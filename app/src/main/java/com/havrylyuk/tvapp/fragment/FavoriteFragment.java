@@ -36,6 +36,7 @@ public class FavoriteFragment extends Fragment implements LoaderManager.LoaderCa
     public interface OnFavoriteListener {
         void updateChannelView(String title);
         void setChannelLogo(int imageId);
+        void onChangeFavoriteState(long id, boolean value);
     }
 
     private OnFavoriteListener listener;
@@ -80,7 +81,9 @@ public class FavoriteFragment extends Fragment implements LoaderManager.LoaderCa
         mAdapter.setListener(new ChannelCursorAdapter.OnFavoriteClickListener() {
             @Override
             public void onFavoriteClick(long id, boolean value) {
-                ((MainActivity) getActivity()).onChangeFavoriteState(id, value);
+                if (listener!=null){
+                    listener.onChangeFavoriteState(id, value);
+                }
             }
         });
         recyclerView.setItemAnimator(new DefaultItemAnimator());
