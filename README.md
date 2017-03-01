@@ -49,7 +49,6 @@ Sync|Date Picker|Sort Dialog
 * com.squareup.retrofit2:converter-gson:2.1.0
 * com.squareup.okhttp3:logging-interceptor:3.3.1
 * com.wdullaer:materialdatetimepicker:3.1.2
-* com.rom4ek:arcnavigationview:1.0.2
 
 Developed By
 -------
