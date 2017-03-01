@@ -31,21 +31,6 @@ public class Utility {
         return isNetworkAvailable;
     }
 
-    // check internet access now!
-    public static boolean isOnline() {
-        Runtime runtime = Runtime.getRuntime();
-        try {
-            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int     exitValue = ipProcess.waitFor();
-            return (exitValue == 0);
-        } catch (IOException | InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-
     public  static int getChannelSortValues(boolean isDesc) {
         return isDesc ? R.array.channel_sort_values_desc : R.array.channel_sort_values;
     }
@@ -94,8 +79,6 @@ public class Utility {
     public static boolean isNotDuplicateSync(Context context) {
         long lastSyncTime = PreferencesHelper.getInstance()
                 .getLastSyncTime(context.getString(R.string.pref_last_sync_time_key));
-        /*boolean isFirstRun = PreferencesHelper.getInstance()
-                .getFirstRun(context.getString(R.string.pref_fist_run_key));*/
         return  (System.currentTimeMillis() - lastSyncTime) / 1000 > TvGuideSyncAdapter.RUN_NEXT_SYNC_DELAY;
     }
 }

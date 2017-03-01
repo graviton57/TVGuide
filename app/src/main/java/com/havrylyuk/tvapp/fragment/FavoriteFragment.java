@@ -1,6 +1,7 @@
 package com.havrylyuk.tvapp.fragment;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,11 +33,28 @@ public class FavoriteFragment extends Fragment implements LoaderManager.LoaderCa
 
     public static final String FAVORITES_FRAGMENT_TAG = "com.havrylyuk.tvapp.FAVORITES_FRAGMENT_TAG";
 
+    public interface OnFavoriteListener {
+        void updateChannelView(String title);
+        void setChannelLogo(int imageId);
+    }
+
+    private OnFavoriteListener listener;
     private static final int FAVORITE_LOADER = 1003;
     private ChannelCursorAdapter mAdapter;
     private TextView emptyListView;
 
     public FavoriteFragment() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFavoriteListener) {
+            listener = (OnFavoriteListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFavoriteListener");
+        }
     }
 
     @Override
@@ -46,8 +64,10 @@ public class FavoriteFragment extends Fragment implements LoaderManager.LoaderCa
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         emptyListView = (TextView) rootView.findViewById(R.id.recycler_view_empty_content);
         setupRecyclerView(recyclerView);
-        ((MainActivity)getActivity()).updateChannelView(getString(R.string.item_preferred));
-        ((MainActivity)getActivity()).setChannelLogo(R.drawable.img_favorites);
+        if (listener != null) {
+            listener.updateChannelView(getString(R.string.item_preferred));
+            listener.setChannelLogo(R.drawable.img_favorites);
+        }
         getActivity().getSupportLoaderManager().initLoader(FAVORITE_LOADER, Bundle.EMPTY, this);
         return rootView;
     }

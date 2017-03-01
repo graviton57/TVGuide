@@ -55,11 +55,13 @@ public class ChannelFragment extends Fragment implements LoaderManager.LoaderCal
 
     public interface OnChangeFavoriteListener {
         void onChangeFavoriteState(long id, boolean value);
+        void updateChannelView(String title);
+        void setChannelLogo(int imageId);
     }
+
     public static final String EXTRA_CATEGORY_ID = "com.havrylyuk.tvapp.EXTRA_CATEGORY_ID";
 
     private static final int CHANNELS_LOADER = 1002;
-
     private ChannelCursorAdapter mAdapter;
     private String category;
     private String sortBy;
@@ -90,9 +92,11 @@ public class ChannelFragment extends Fragment implements LoaderManager.LoaderCal
         }
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         setupRecyclerView(recyclerView);
+        if (listener != null) {
+            listener.updateChannelView(getString(R.string.item_channels));
+            listener.setChannelLogo(R.drawable.img_channel);
+        }
         emptyListView = (TextView) rootView.findViewById(R.id.recycler_view_empty_content);
-        ((MainActivity)getActivity()).updateChannelView(getString(R.string.item_channels));
-        ((MainActivity)getActivity()).setChannelLogo(R.drawable.img_channel);
         getActivity().getSupportLoaderManager()
                 .restartLoader(CHANNELS_LOADER, Bundle.EMPTY, this);
         return rootView;
@@ -139,7 +143,6 @@ public class ChannelFragment extends Fragment implements LoaderManager.LoaderCal
                 }
             }
         }
-
     }
 
     @Override

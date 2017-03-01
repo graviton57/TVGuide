@@ -22,7 +22,6 @@ public class ProgramCursorAdapter extends RecyclerView.Adapter<ProgramCursorAdap
 
     private Cursor cursor;
 
-
     public ProgramCursorAdapter() {
     }
 

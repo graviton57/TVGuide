@@ -25,13 +25,11 @@ import com.havrylyuk.tvapp.util.ImageHelper;
 
 public class CategoryCursorAdapter extends RecyclerView.Adapter<CategoryCursorAdapter.CategoryViewHolder> {
 
-
     public interface OnItemSelectedListener {
         void onItemSelected(long id, CategoryViewHolder view);
     }
 
     private OnItemSelectedListener listener;
-
     private Cursor cursor;
     private int currentPosition = RecyclerView.NO_POSITION;
 
@@ -67,7 +65,6 @@ public class CategoryCursorAdapter extends RecyclerView.Adapter<CategoryCursorAd
             public void onClick(View v) {
                 notifyItemChanged(currentPosition);
                 currentPosition = holder.getAdapterPosition();
-                notifyItemChanged(currentPosition);
                 if (listener != null) {
                     listener.onItemSelected(id, holder);
                 }

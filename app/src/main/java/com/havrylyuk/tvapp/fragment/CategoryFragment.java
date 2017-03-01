@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -17,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.havrylyuk.tvapp.R;
-import com.havrylyuk.tvapp.activity.MainActivity;
 import com.havrylyuk.tvapp.adapter.CategoryCursorAdapter;
 import com.havrylyuk.tvapp.data.local.TvContract.CategoryEntry;
 
@@ -30,6 +28,7 @@ import com.havrylyuk.tvapp.data.local.TvContract.CategoryEntry;
 public class CategoryFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String CATEGORIES_FRAGMENT_TAG = "com.havrylyuk.tvapp.CATEGORIES_FRAGMENT_TAG";
+
     public String[] CATEGORIES_COLUMNS = new String[]{
             CategoryEntry.TABLE_NAME+"."+CategoryEntry._ID,
             CategoryEntry.TABLE_NAME+"."+CategoryEntry.COLUMN_CATEGORY_ID,
@@ -42,13 +41,14 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     public static final int  COL_TITLE = 2;
     public static final int  COL_IMAGE = 3;
 
-    private OnSelectCategoryListener listener;
-    private TextView emptyListView;
-
     public interface OnSelectCategoryListener {
         void onCategoryClick(long id);
+        void updateChannelView(String title);
+        void setChannelLogo(int imageId);
     }
 
+    private OnSelectCategoryListener listener;
+    private TextView emptyListView;
     private static final int CATEGORIES_LOADER = 1001;
     private CategoryCursorAdapter mAdapter;
 
@@ -71,8 +71,10 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.content_list, container, false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        ((MainActivity)getActivity()).updateChannelView(getString(R.string.item_categories));
-        ((MainActivity)getActivity()).setChannelLogo(R.drawable.img_categories);
+        if (listener != null) {
+            listener.updateChannelView(getString(R.string.item_categories));
+            listener.setChannelLogo(R.drawable.img_categories);
+        }
         setupRecyclerView(recyclerView);
         emptyListView = (TextView) rootView.findViewById(R.id.recycler_view_empty_content);
         getActivity().getSupportLoaderManager().initLoader(CATEGORIES_LOADER, Bundle.EMPTY, this);
@@ -91,7 +93,6 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(mAdapter);
-
     }
 
     @Override
@@ -118,7 +119,6 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
                 }
             }
         }
-
     }
 
     @Override
@@ -126,6 +126,5 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
         if (loader.getId() == CATEGORIES_LOADER) {
             mAdapter.setCursor(null);
         }
-
     }
 }

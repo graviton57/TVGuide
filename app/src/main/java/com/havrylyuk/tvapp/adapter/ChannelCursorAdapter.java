@@ -2,7 +2,6 @@
 
 package com.havrylyuk.tvapp.adapter;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
@@ -17,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.havrylyuk.tvapp.R;
-import com.havrylyuk.tvapp.data.local.TvContract.ChannelEntry;
 import com.havrylyuk.tvapp.fragment.ChannelFragment;
 import com.havrylyuk.tvapp.util.ImageHelper;
 
@@ -29,13 +27,11 @@ import com.havrylyuk.tvapp.util.ImageHelper;
 
 public class ChannelCursorAdapter extends RecyclerView.Adapter<ChannelCursorAdapter.ChannelViewHolder> {
 
-
     public interface OnFavoriteClickListener {
         void onFavoriteClick(long id, boolean value);
     }
 
     private OnFavoriteClickListener listener;
-
     private Cursor cursor;
     private Context context;
     private int currentPosition = RecyclerView.NO_POSITION;

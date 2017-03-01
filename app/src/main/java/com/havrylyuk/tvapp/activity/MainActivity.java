@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity  implements
         SortChannelDialog.OnSortApplyListener,
         DatePickerDialog.OnDateSetListener,
         CategoryFragment.OnSelectCategoryListener,
+        FavoriteFragment.OnFavoriteListener,
         ChannelFragment.OnChangeFavoriteListener{
 
     private static final String DATE_PICKER_DIALOG_TAG = "com.havrylyuk.tvapp.DATE_PICKER_DIALOG_TAG";
@@ -86,7 +87,6 @@ public class MainActivity extends AppCompatActivity  implements
         if (savedInstanceState != null) {
             currentItem = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             isSyncActive = savedInstanceState.getBoolean(STATE_SYNC_ACTIVE);
-
         }
         navigationView.getMenu().performIdentifierAction(currentItem, 0);//default main fragment
         TvGuideSyncAdapter.initializeSyncAdapter(this);//sync data now
@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity  implements
                 datePickerDialog.show(getFragmentManager(), DATE_PICKER_DIALOG_TAG);
             }
         });
-
     }
 
     private void updateChannelView() {
@@ -335,7 +334,7 @@ public class MainActivity extends AppCompatActivity  implements
     public class SyncContentReceiver extends BroadcastReceiver {
 
         public static final String SYNC_RESPONSE_STATUS
-                = "com.havrylyuk.weather.intent.action.SYNC_RESPONSE_STATUS";
+                = "com.havrylyuk.tvapp.intent.action.SYNC_RESPONSE_STATUS";
 
         @Override
         public void onReceive(Context context, Intent intent) {
