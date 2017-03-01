@@ -51,14 +51,14 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity  implements
         NavigationView.OnNavigationItemSelectedListener,
-        SortChannelDialog.onSortApplyListener,
+        SortChannelDialog.OnSortApplyListener,
         DatePickerDialog.OnDateSetListener,
         CategoryFragment.OnSelectCategoryListener,
         ChannelFragment.OnChangeFavoriteListener{
 
     private static final String DATE_PICKER_DIALOG_TAG = "com.havrylyuk.tvapp.DATE_PICKER_DIALOG_TAG";
     private static final String STATE_SELECTED_POSITION = "com.havrylyuk.tvapp.STATE_SELECTED_POSITION";
-    private static final String STATE_SYNC_ACTIVE = "com.havrylyuk.tvapp.STATE_SYNC_ACTIVE";;
+    private static final String STATE_SYNC_ACTIVE = "com.havrylyuk.tvapp.STATE_SYNC_ACTIVE";
 
     private ProgressBar progressBar;
     private PreferencesHelper preferencesHelper;

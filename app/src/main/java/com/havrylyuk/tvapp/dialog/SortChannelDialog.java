@@ -24,11 +24,11 @@ public class SortChannelDialog extends DialogFragment {
 
     public static final String SORT_DIALOG_TAG = "com.havrylyuk.tvapp.SORT_DIALOG";
 
-    public interface onSortApplyListener {
+    public interface OnSortApplyListener {
         void changeSortType(int position , boolean isDesc);
     }
 
-    private onSortApplyListener mListener;
+    private OnSortApplyListener mListener;
 
     public SortChannelDialog() {
     }
@@ -37,7 +37,7 @@ public class SortChannelDialog extends DialogFragment {
     public void onAttach(Context activity) {
         super.onAttach(activity);
         try {
-            mListener = (onSortApplyListener) activity;
+            mListener = (OnSortApplyListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement SortChannelDialog");
