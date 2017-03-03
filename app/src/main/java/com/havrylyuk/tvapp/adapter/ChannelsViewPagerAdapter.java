@@ -1,18 +1,17 @@
 package com.havrylyuk.tvapp.adapter;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.havrylyuk.tvapp.R;
+import com.havrylyuk.tvapp.fragment.ChannelFragment;
 import com.havrylyuk.tvapp.fragment.ProgramFragment;
-import com.havrylyuk.tvapp.model.TvChannel;
 import com.havrylyuk.tvapp.util.PreferencesHelper;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 
@@ -23,7 +22,7 @@ import java.util.Locale;
 
 public class ChannelsViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private final List<TvChannel> tvChannels = new ArrayList<>();
+    private Cursor tvChannels;
     private Context context;
     private PreferencesHelper preferencesHelper;
     private final SimpleDateFormat format;
@@ -35,30 +34,35 @@ public class ChannelsViewPagerAdapter extends FragmentStatePagerAdapter {
         format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     }
 
-    public void addItem(TvChannel tvChannel){
-        tvChannels.add(tvChannel);
-        notifyDataSetChanged();
+    public void swapCursor( Cursor cursor) {
+        this.tvChannels = cursor;
     }
 
     @Override
     public Fragment getItem(int position) {
-        long channelId = tvChannels.get(position).getId();
+        tvChannels.moveToPosition(position);
+        long channelId = tvChannels.getLong(ChannelFragment.COL_CH_ID);
         long savedDate = preferencesHelper.getCurProgramsDate(context.getString(R.string.pref_program_date_key));
         return ProgramFragment.newInstance(channelId, format.format(savedDate));
     }
 
     @Override
     public int getCount() {
-        return tvChannels.size();
+        if (tvChannels != null) {
+            return tvChannels.getCount();
+        }
+        return 0;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return tvChannels.get(position).getName();
+        tvChannels.moveToPosition(position);
+        return tvChannels.getString(ChannelFragment.COL_NAME);
     }
 
     public String getImagePath(int position) {
-        return tvChannels.get(position).getPicture();
+        tvChannels.moveToPosition(position);
+        return tvChannels.getString(ChannelFragment.COL_IMAGE);
     }
 
 }

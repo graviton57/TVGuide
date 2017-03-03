@@ -131,13 +131,7 @@ public class ProgramsTabsFragment extends Fragment implements LoaderManager.Load
         if (loader.getId() == CONTENT_LOADER) {
             if (data != null && isAdded()) {
                 viewPagerAdapter = new ChannelsViewPagerAdapter(getActivity(), getChildFragmentManager());
-                while (data.moveToNext()) {
-                    TvChannel tvChannel = new TvChannel();
-                    tvChannel.setId(data.getLong(ChannelFragment.COL_CH_ID));
-                    tvChannel.setName(data.getString(ChannelFragment.COL_NAME));
-                    tvChannel.setPicture(data.getString(ChannelFragment.COL_IMAGE));
-                    viewPagerAdapter.addItem(tvChannel);
-                }
+                viewPagerAdapter.swapCursor(data);
                 if (viewPager != null) {
                     viewPager.setAdapter(viewPagerAdapter);
                     tabLayout.setupWithViewPager(viewPager);
@@ -147,8 +141,11 @@ public class ProgramsTabsFragment extends Fragment implements LoaderManager.Load
         }
     }
 
+    @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        if (loader.getId() == CONTENT_LOADER) {
+            viewPagerAdapter.swapCursor(null);
+        }
     }
 
     public void sortChannels(String value) {

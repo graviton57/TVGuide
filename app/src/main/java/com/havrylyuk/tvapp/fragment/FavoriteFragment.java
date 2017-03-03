@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.havrylyuk.tvapp.R;
-import com.havrylyuk.tvapp.activity.MainActivity;
 import com.havrylyuk.tvapp.adapter.ChannelCursorAdapter;
 import com.havrylyuk.tvapp.data.local.TvContract.ChannelEntry;
 
