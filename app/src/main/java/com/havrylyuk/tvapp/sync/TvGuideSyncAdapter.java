@@ -339,7 +339,7 @@ public class TvGuideSyncAdapter extends AbstractThreadedSyncAdapter {
                                     .setColor(ContextCompat.getColor(context,R.color.colorPrimaryLight))
                                     .setSmallIcon(iconId)
                                     .setLargeIcon(largeIcon)
-                                    .setAutoCancel(false)
+                                    .setAutoCancel(true)
                                     .setContentTitle(title)
                                     .setContentText(contentText);
                     Intent resultIntent = new Intent(context, MainActivity.class);
