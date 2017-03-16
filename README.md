@@ -3,6 +3,7 @@
 <p align="center">
   <img src="screenshot/logo.png" >
 </p>
+
 [![Join the chat at https://gitter.im/TVGuide/Lobby](https://badges.gitter.im/TVGuide/Lobby.svg)](https://gitter.im/TVGuide/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
