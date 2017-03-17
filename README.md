@@ -6,6 +6,7 @@
 
 [![Join the chat at https://gitter.im/TVGuide/Lobby](https://badges.gitter.im/TVGuide/Lobby.svg)](https://gitter.im/TVGuide/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![API](https://img.shields.io/badge/API-16%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=16)
 
 Simple Android application for TV channels show programs.
 
