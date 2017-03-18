@@ -1,6 +1,6 @@
 ext{
 
-    supportVersion = '25.2.0'
+    supportVersion = '25.3.0'
     retrofitVersion = '2.1.0'
     picassoVersion = '2.5.2'
     okhttp3Version = '3.3.1'
